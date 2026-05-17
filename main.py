@@ -66,3 +66,20 @@ def plan_route(graph: TransitGraph): # Main function to plan a route between two
 
     prompt("  Press Enter to continue…")
 
+
+
+
+
+# Entry function for the program; accepts optional extra city networks as a dict
+def run(extra_networks: dict | None = None):
+
+    networks = load_default_networks()          # Load built-in city data from the data/ folder
+
+    if extra_networks:
+        networks.update(extra_networks)         # Merge any extra networks passed in (e.g. via --json flag)
+
+    if not networks:
+        print("  ✘  No city data found. Add JSON files to the data/ folder.")
+        sys.exit(1)                             # Abort early — nothing to work with
+
+    city_names = list(networks.keys())
