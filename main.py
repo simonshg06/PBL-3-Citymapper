@@ -99,3 +99,15 @@ def run(extra_networks: dict | None = None):
 
         if not choice:                          # Empty string = invalid input, skip and re-prompt
             continue
+
+
+        graph = TransitGraph(networks[choice])  # Build the graph structure for the selected city
+        display_network_info(graph)             # Show stats (stations, lines, etc.) right after picking
+
+        while True:                             # Inner loop: stays inside one city until user leaves
+            print(f"\n  [City: {choice}]")
+            print("  r) Plan a route")
+            print("  i) Network info")
+            print("  c) Change city")
+            print("  q) Quit")
+
