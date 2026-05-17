@@ -66,13 +66,3 @@ def plan_route(graph: TransitGraph): # Main function to plan a route between two
 
     prompt("  Press Enter to continue…")
 
-
-
-    SEP  = "─" * 60
-
-
-def format_time(seconds: int) -> str:
-    m, s = divmod(seconds, 60)
-    if m == 0:
-        return f"{s}s"
-    return f"{m} min {s}s" if s else f"{m} min"
