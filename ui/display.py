@@ -49,3 +49,17 @@ def display_route(path: list, total_cost, graph: TransitGraph, algorithm_name: s
     print(f"  🔄 Transfers     : {transfers}")
     print(SEP)
     print()
+
+
+def display_network_info(graph: TransitGraph):
+    transfers = graph.transfer_stations()
+    preview   = ", ".join(transfers[:6]) + (" …" if len(transfers) > 6 else "")
+    connected = "Yes ✔" if graph.is_connected() else "No — isolated nodes detected ✘"
+
+    print(f"\n{SEP}")
+    print(f"  Network : {graph.name}")
+    print(f"  Lines   : {', '.join(graph.lignes.keys())}")
+    print(f"  Stations: {len(graph.all_stations())}")
+    print(f"  Transfer hubs ({len(transfers)}): {preview}")
+    print(f"  Connected: {connected}")
+    print(SEP)
