@@ -83,3 +83,9 @@ def run(extra_networks: dict | None = None):
         sys.exit(1)                             # Abort early — nothing to work with
 
     city_names = list(networks.keys())
+
+    while True:                                 # Outer loop: keeps returning to city selection
+        os.system("cls" if os.name == "nt" else "clear")  # Clear terminal (cls on Windows, clear on Unix)
+        print("=" * 60)
+        print("     🚇  TRANSIT ROUTE PLANNER  — ESME PBL")
+        print("=" * 60)
