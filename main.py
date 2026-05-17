@@ -19,3 +19,12 @@ def load_json(path: str) -> dict | None:
     except json.JSONDecodeError as e:
         print(f"  ⚠  JSON error in '{path}': {e}")
     return None
+
+def load_default_networks() -> dict:
+    networks = {}
+    for filename in CITY_FILES:
+        path = os.path.join(DATA_DIR, filename)
+        data = load_json(path)
+        if data:
+            networks[data["nom"]] = data
+    return networks
