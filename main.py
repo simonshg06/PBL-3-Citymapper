@@ -127,3 +127,23 @@ def run(extra_networks: dict | None = None):
             elif action == "r":
                 plan_route(graph)               # Launch the route-planning flow for this city
 
+   
+   
+
+# Only runs when the script is executed directly (not imported as a module)
+if __name__ == "__main__":
+    extra = {}                                  # Will hold any city networks loaded via --json flags
+    args  = sys.argv[1:]                        # Grab all command-line arguments after the script name
+    i     = 0
+
+    while i < len(args):                        # Walk through args manually (not using argparse)
+        if args[i] == "--json" and i + 1 < len(args):  # Expect a filename immediately after --json
+            data = load_json(args[i + 1])       # Parse the JSON file at the given path
+            if data:
+                extra[data["nom"]] = data       # Index the network by its city name ("nom" key)
+                print(f"  Loaded extra network: {data['nom']}")
+            i += 2                              # Skip both "--json" and the filename
+        else:
+            i += 1                              # Unknown flag — skip it silently
+
+    run(extra)                                  # Kick off the program (note: original code has Run(extra) — capitalisation bug)
