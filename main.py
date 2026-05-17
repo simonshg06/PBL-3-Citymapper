@@ -111,3 +111,19 @@ def run(extra_networks: dict | None = None):
             print("  c) Change city")
             print("  q) Quit")
 
+
+            action = prompt("\n  > ").lower()   # Read user input, normalise to lowercase
+
+            if action == "q":
+                print("\n  Goodbye! 👋\n")
+                sys.exit(0)                     # Hard exit from anywhere in the inner menu
+
+            elif action == "c":
+                break                           # Break inner loop → falls back to outer city-picker loop
+
+            elif action == "i":
+                display_network_info(graph)     # Re-display network stats on demand
+
+            elif action == "r":
+                plan_route(graph)               # Launch the route-planning flow for this city
+
