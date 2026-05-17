@@ -46,6 +46,22 @@ def ask_algorithm():
     while True:
 
         choice = prompt("  Choose [1/2/3, default=1]: ") or "1"  # treat empty input as "1"
-        
+
         if choice in options: return options[choice]
         print("  Please enter 1, 2 or 3.")
+
+# Shows city list and returns the chosen city name, or None if user quits
+def ask_city(city_names, networks):
+    print("\n  Available cities:")
+    for i, name in enumerate(city_names, 1):
+        data = networks[name]
+        num_stations = len({st for l in data["lignes"].values() for st in l["stations"]})  # count unique stations across all lines
+        print(f"    {i}. {name:<20} ({len(data['lignes'])} lines, {num_stations} stations)")
+    print(f"    {len(city_names) + 1}. Quit")
+
+    raw = prompt("\n  Select a city: ")
+    if raw.isdigit():
+        idx = int(raw)
+        if idx == len(city_names) + 1: return None          # user picked Quit
+        if 1 <= idx <= len(city_names): return city_names[idx - 1]  # valid city number
+    return raw if raw in networks else ""  # typed a city name, or garbage input
