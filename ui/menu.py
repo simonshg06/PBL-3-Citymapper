@@ -31,3 +31,21 @@ def ask_station(label: str, graph: TransitGraph) -> str:
 
         else:
             print(f"  ✘  Station not found: '{raw}'. Try again.")
+
+
+# Maps number input to algorithm name
+def ask_algorithm():
+
+    print("\n  Algorithms:")
+    print("    1. Dijkstra  — fastest route (shortest time)")
+    print("    2. BFS       — fewest stops")
+    print("    3. DFS       — depth-first exploration")
+
+    options = {"1": "dijkstra", "2": "bfs", "3": "dfs"}
+
+    while True:
+
+        choice = prompt("  Choose [1/2/3, default=1]: ") or "1"  # treat empty input as "1"
+        
+        if choice in options: return options[choice]
+        print("  Please enter 1, 2 or 3.")
