@@ -89,3 +89,13 @@ def run(extra_networks: dict | None = None):
         print("=" * 60)
         print("     🚇  TRANSIT ROUTE PLANNER  — ESME PBL")
         print("=" * 60)
+
+
+        choice = ask_city(city_names, networks) # Show city picker; returns chosen city name, None, or ""
+
+        if choice is None:                      # User explicitly chose Quit from city menu
+            print("\n  Goodbye! 👋\n")
+            break                               # Exit the outer while loop → program ends
+
+        if not choice:                          # Empty string = invalid input, skip and re-prompt
+            continue
