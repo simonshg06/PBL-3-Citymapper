@@ -37,11 +37,11 @@ def ask_station(label: str, graph: TransitGraph) -> str:
 def ask_algorithm():
 
     print("\n  Algorithms:")
-    print("    1. Dijkstra  — fastest route (shortest time)")
-    print("    2. BFS       — fewest stops")
-    print("    3. DFS       — depth-first exploration")
+    print("    1. fastest route (shortest time)")
+    print("    2. fewest stops")
+    print("    3. depth-first exploration")
 
-    options = {"1": "dijkstra", "2": "bfs", "3": "dfs"}
+    options = {"1": "Fatest route", "2": "Fewest stops", "3": "depth first exploration"}
 
     while True:
 
