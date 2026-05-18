@@ -23,9 +23,9 @@ Yousef Abouturkia, Charlie Delecour, Simon Berger
 Transit Route Planner is an interactive terminal app that lets you find the best route between two stations across several French city networks. You pick a city, enter where you're coming from and where you're going, and the app calculates your route using one of three algorithms.
 Key Features:
 
-   - Route planning across multiple French cities (Paris, Lyon, Bordeaux, Lille, and more)
+   - Route planning across multiple French cities (Paris, Lyon, Bordeaux, Lille)
    - Three different algorithms to find your route depending on what matters to you
-   - Transfer detection — the app tells you exactly where to change lines
+   - Transfer detection: the app tells you exactly where to change lines
    - Network stats for each city (number of lines, stations, transfer hubs)
    - Load your own custom city network via a JSON file from the command line
 
@@ -39,7 +39,7 @@ cd PBL3-Citymapper
 
 2. **Setup Virtual Environment:**\
    python -m venv .venv
-source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+source .venv/bin/activate  
 
 3. **Install Dependencies:**\
    pip install -r requirements.txt
