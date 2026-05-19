@@ -1,14 +1,14 @@
 from core.algorithms import parse_node
 from core.graph import TransitGraph
 
-SEP  = "─" * 60
+SEP  = "─" * 60 # a horizontal separator line for better visual formatting in the terminal
 
 
 def format_time(seconds: int) -> str: # Format a time duration given in seconds into a human-readable string
-    m, s = divmod(seconds, 60)
-    if m == 0:
-        return f"{s}s"
-    return f"{m} min {s}s" if s else f"{m} min"
+    m, s = divmod(seconds, 60) # divmod gives the quotient (minutes) and remainder (seconds) when dividing the total seconds by 60
+    if m == 0: # if there are no full minutes, we just return the seconds with the correct pluralization
+        return f"{s}s" # returns a value in seconds
+    return f"{m} min {s}s" if s else f"{m} min" # if there are minutes and some leftover seconds, we include both in the string. 
 
 
 
