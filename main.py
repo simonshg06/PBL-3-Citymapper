@@ -1,66 +1,76 @@
-import json
-import os
-import sys
+import json # json reads the city files
+import os # os handles file paths
+import sys # sys is used for command-line arguments and exiting the program
 
-from core.graph import TransitGraph
+from core.graph import TransitGraph 
 from core.algorithms import dijkstra, bfs, dfs
 from ui.display import display_route, display_network_info
 from ui.menu import prompt, ask_station, ask_algorithm, ask_city
 
 DATA_DIR   = os.path.join(os.path.dirname(__file__), "data")
+ #.dirname removes the filename from the path, then .join adds "data" to the path, giving us the full path to the data folder regardless of where the script is run from
 CITY_FILES = ["mini_reseau.json", "paris.json", "bordeaux.json", "lille.json", "lyon.json"]
+ # list of Json file names to load from the data directory. each file should contain a city's transit network in the expected format (with "nom", "lignes", etc.)
 
-def load_json(path: str) -> dict | None: # Load JSON data from a file, with error handling
-    try:
-        with open(path, encoding="utf-8") as f:
-            return json.load(f)
-    except FileNotFoundError:
-        print(f"  ⚠  File not found: '{path}'")
-    except json.JSONDecodeError as e:
+def load_json(path: str) -> dict | None: # the function takes a file path as input and expects to return a dictionary
+    try: # attempts to run the code underneath
+        with open(path, encoding="utf-8") as f: 
+            # path tells us which file to open, and encoding="utf-8" ensures we can read special characters in station names without errors
+            return json.load(f) # turns the json file into a python dictionary
+    except FileNotFoundError: #the file doesn't exist at the given path, we catch that specific error and print a warning instead of crashing
+        print(f"  ⚠  File not found: '{path}'") 
+    except json.JSONDecodeError as e: # the file exists but contains invalid JSON, we catch that error and print a warning with the error message
         print(f"  ⚠  JSON error in '{path}': {e}")
-    return None
+    return None # return none if there was an error
 
 def load_default_networks() -> dict: # Load all city networks from the data directory and return them as a dictionary
-    networks = {}
-    for filename in CITY_FILES:
-        path = os.path.join(DATA_DIR, filename)
-        data = load_json(path)
-        if data:
-            networks[data["nom"]] = data
+    networks = {} # empty dict to hold the loaded networks, indexed by city name
+    for filename in CITY_FILES: # loop through each expected city file name
+        path = os.path.join(DATA_DIR, filename) # builds the full file path by joining the data directory path with the filename
+        data = load_json(path) # reads the json file and returns a dictionary
+        if data: # if the data was loaded successfully
+            networks[data["nom"]] = data 
+            # we take the "nom" field from the data (which should be the city name) and use it as the key to store the entire network data in the networks dictionary
     return networks
 
 def plan_route(graph: TransitGraph): # Main function to plan a route between two stations using the selected algorithm
-    print()
-    departure = ask_station("Departure station", graph)
-    arrival   = ask_station("Arrival station  ", graph)
+    print() # just a blank line for spacing before the prompts start
+    departure = ask_station("Departure station", graph) #calls ask station to prompt the user for a departure station 
+    arrival   = ask_station("Arrival station  ", graph) #calls ask station to prompt the user for an arrival station
 
-    if departure == arrival:
+    if departure == arrival: 
+        # if the user accidentally entered the same station for both departure and arrival, we catch that and print a warning instead of trying to find a route
         print("  ✘  Departure and arrival must be different.")
         return
 
-    algo = ask_algorithm()
+    algo = ask_algorithm() # prompts the user to choose which algorithm they want to use for route planning (dijkstra, bfs, or dfs)
 
-    if algo == "dijkstra":
-        result = dijkstra(graph, departure, arrival)
-        if result:
-            path, cost = result
-            display_route(path, cost, graph, "Dijkstra (fastest route)")
+    if algo == "dijkstra": 
+        result = dijkstra(graph, departure, arrival) 
+        # calls the dijkstra function from core.algorithms, passing in the graph and the chosen departure and arrival stations.
+        if result: # if dijkstra returns a valid result (a path and its total cost), we unpack it into path and cost variables
+            path, cost = result 
+            display_route(path, cost, graph, "Dijkstra (fastest route)") # displays the route usin the display route function
         else:
             print("  ✘  No path found.")
 
-    elif algo == "bfs":
+    elif algo == "bfs":  
         result = bfs(graph, departure, arrival)
-        if result:
-            path, stops = result
-            display_route(path, None, graph, f"BFS (fewest stops: {stops})")
+          # calls the bfs function from core.algorithms, passing in the graph and the chosen departure and arrival stations.
+        if result:  # if bfs returns a valid result (a path and the number of stops), we unpack it into path and stops variables
+            path, stops = result 
+            display_route(path, None, graph, f"BFS (fewest stops: {stops})") 
+             # displays the route without a total cost but includes the number of stops in the algorithm name for clarity
         else:
             print("  ✘  No path found.")
 
     else:  # dfs
         result = dfs(graph, departure, arrival)
+         # calls the dfs function from core.algorithms, passing in the graph and the chosen departure and arrival stations.
         if result:
             path, stops = result
             display_route(path, None, graph, f"DFS (depth-first, {stops} segments)")
+             # displays the route without a cost again but indicates that it's a depth-first search and shows the number of stops (edges) in the path
         else:
             print("  ✘  No path found.")
 
