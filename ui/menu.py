@@ -44,7 +44,7 @@ def ask_algorithm():
     print("    2. fewest stops")
     print("    3. depth-first exploration")
 
-    options = {"1": "Fatest route", "2": "Fewest stops", "3": "depth first exploration"}
+    options = {"1": "Fastest route", "2": "Fewest stops", "3": "depth first exploration"}
 
     while True:
 

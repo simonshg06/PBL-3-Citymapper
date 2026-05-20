@@ -90,7 +90,7 @@ def run(extra_networks: dict | None = None):
 
     if not networks:
         print("  ✘  No city data found. Add JSON files to the data/ folder.")
-        sys.exit(1)                             # Abort early — nothing to work with
+        sys.exit()                             # Abort early — nothing to work with
 
     city_names = list(networks.keys())
 
@@ -138,7 +138,7 @@ def run(extra_networks: dict | None = None):
                 plan_route(graph)               # Launch the route-planning flow for this city
 
    
-   
+
 
 # Only runs when the script is executed directly (not imported as a module)
 if __name__ == "__main__":
